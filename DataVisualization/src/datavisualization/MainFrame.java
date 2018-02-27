@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package datavisualization;
 
-/**
- *
- * @author Dan
- */
-public class MainFrame {
-    
+import javax.swing.JFrame;
+
+
+
+public class MainFrame extends JFrame{
+    public MainFrame()
+    {
+        super("Data Visualization");
+        ButtonPanel bp = new ButtonPanel();
+        getContentPane().add(bp);
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
 }
