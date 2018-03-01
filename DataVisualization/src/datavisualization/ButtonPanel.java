@@ -1,8 +1,10 @@
 
 package datavisualization;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -34,6 +36,11 @@ public class ButtonPanel extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e)
     {
-    
+        Object o = e.getSource();
+        
+        if(o == drawButton) {
+
+        }
     }
+    
 }
