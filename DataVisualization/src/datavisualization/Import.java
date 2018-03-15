@@ -21,6 +21,7 @@ public class Import {
         scanner.useDelimiter(",");
         while(scanner.hasNext()){
             System.out.print(scanner.next()+",");
+            //return scanner.next()+",";
         }
         scanner.close();
     }
