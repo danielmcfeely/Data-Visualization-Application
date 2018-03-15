@@ -16,7 +16,7 @@ public class MainFrame extends JFrame{
         
         setSize(2000, 1500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setVisible(true);
     }
 }
