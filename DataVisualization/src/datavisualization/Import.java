@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class Import {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("")); //Needs to be filled with CSV file
+        Scanner scanner = new Scanner(new File("SampleData.csv")); //Needs to be filled with CSV file
         scanner.useDelimiter(",");
         while(scanner.hasNext()){
             System.out.print(scanner.next()+",");

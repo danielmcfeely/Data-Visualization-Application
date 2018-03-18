@@ -9,7 +9,7 @@ public class DataVisualization {
         MainFrame mf = new MainFrame();
          
         ArrayList<Graph> values = new ArrayList<>();
-        
+        //Import();
         //must be in between 100 and 1100
         
         
