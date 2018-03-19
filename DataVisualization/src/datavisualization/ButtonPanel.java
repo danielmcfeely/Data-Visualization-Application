@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.Graphics;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 public class ButtonPanel extends JPanel implements ActionListener{
     JButton selectButton = null;
@@ -29,7 +36,25 @@ public class ButtonPanel extends JPanel implements ActionListener{
         add(filterButton);
         
         exportButton = new JButton("Export Graph");
-        exportButton.addActionListener(this);
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                // capture the whole screen
+                BufferedImage screencapture = new Robot().createScreenCapture(
+                    new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()) );
+
+                // Save as JPEG
+                File file = new File("screencapture.jpg");
+                ImageIO.write(screencapture, "jpg", file);
+                }
+                catch (AWTException f){
+                    System.err.println(f);
+                }
+                catch (IOException x){
+                    System.err.println(x);
+                }
+            }
+        });
         add(exportButton);
     }
     
