@@ -20,7 +20,8 @@ public class Import {
         Scanner scanner = new Scanner(new File("SampleData.csv")); //Needs to be filled with CSV file
         scanner.useDelimiter(",");
         while(scanner.hasNext()){
-            System.out.print(scanner.next()+",");
+            System.out.print(scanner.next()+",");//we want to parse this information into an array list
+            
             //return scanner.next()+",";
         }
         scanner.close();
