@@ -7,7 +7,7 @@ public class Data {
     private int value2;
     private int value3;
     
-    Data(String category, int value, int value2, int value3) {
+    Data(String category, int value1, int value2, int value3) {
     this.category = category;
     this.value1 = value1;
     this.value2 = value2;
