@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 import javax.swing.JPanel; 
 import javax.swing.JFileChooser;
+import java.awt.Font;
 
 public class ButtonPanel extends JPanel implements ActionListener{
     JButton selectButton = null;
@@ -44,7 +45,6 @@ public class ButtonPanel extends JPanel implements ActionListener{
         
         if(o == drawButton) {
             drawGraph();
-            drawGraphLabels();
         }
         
         else if(o == selectButton) {
@@ -52,6 +52,14 @@ public class ButtonPanel extends JPanel implements ActionListener{
             if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 graph.graphData = Import.importData(fc.getSelectedFile().getAbsolutePath());
             }
+        }
+        
+        else if(o == filterButton) {
+            //Jiangyue - Criteria Selection
+        }
+        
+        else if(o == exportButton) {
+            //Collin - Export jpeg screenshot
         }
     }
     public void drawGraph() {
@@ -63,12 +71,15 @@ public class ButtonPanel extends JPanel implements ActionListener{
             {
                 g.drawLine(100, i, 1900, i);
             }
+            drawGraphLabels();
+            drawLegend();
             drawBars();
         }
 
         public void drawGraphLabels() {
             Graphics g = getGraphics();
             g.setColor(Color.red);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
             g.drawString("0", 50, 1100);
             g.drawString("10", 50, 1000);
             g.drawString("20", 50, 900);
@@ -97,6 +108,10 @@ public class ButtonPanel extends JPanel implements ActionListener{
         int x = graph.margin;
         
         for(Data d : graph.graphData) {
+            g.setColor(Color.RED);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
+            g.drawString(d.getCategory(), x, graph.margin + graph.maxHeight + 30);
+            
             g.setColor(Color.red);
             g.fillRect(x, calculateY(d.getValue1()), graph.barWidth, calculateHeight(d.getValue1()));
             x += graph.barWidth;
@@ -108,6 +123,20 @@ public class ButtonPanel extends JPanel implements ActionListener{
             
             x += graph.dataWidth;
         }
- 
+    }
+    
+    public void drawLegend() {
+        Graphics g = getGraphics();
+        
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(1700, 100, 200, 200);
+        
+        g.setColor(Color.red);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
+        g.drawString("Town 1", 1750, 140);
+        g.setColor(Color.blue);
+        g.drawString("Town 2", 1750, 200);
+        g.setColor(Color.green);
+        g.drawString("Town 3", 1750, 260);
     }
 }
