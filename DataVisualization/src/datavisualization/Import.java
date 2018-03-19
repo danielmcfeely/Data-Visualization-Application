@@ -1,30 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package datavisualization;
 
-/**
- *
- * @author ColinApplebee
- */
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Import {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("SampleData.csv")); //Needs to be filled with CSV file
-        scanner.useDelimiter(",");
-        while(scanner.hasNext()){
-            System.out.print(scanner.next()+",");//we want to parse this information into an array list
+    private static final String COMMA_DELIMITER = ",";
+    
+    public static void main(String[] args) {
+       BufferedReader br = null;
+        try
+        {
+            br = new BufferedReader(new FileReader("\"C:\\Users\\dellc\\Desktop\\SampleData.csv\""));
             
-            //return scanner.next()+",";
+            List<Data> dataList = new ArrayList<Data>();
+            
+            String line = "";
+            br.readLine();
+            while ((line = br.readLine()) != null) 
+            {
+                String[] dataDetails = line.split(COMMA_DELIMITER);
+                
+                if(dataDetails.length > 0 )
+                {
+                    Data data = new Data(dataDetails[0],
+                            Integer.parseInt(dataDetails[1]),Integer.parseInt(dataDetails[2]),
+                            Integer.parseInt(dataDetails[3]));
+                    dataList.add(data);
+                }
+            }
+            
+            for(Data d : dataList)
+            {
+                System.out.println(d.getCategory()+"   "+d.getValue1()+"   "
+                		+d.getValue2()+"   "+d.getValue3());
+            }
         }
-        scanner.close();
+        catch(Exception ee)
+        {
+            ee.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                br.close();
+            }
+            catch(IOException ie)
+            {
+                System.out.println("Error occured while closing the BufferedReader");
+                ie.printStackTrace();
+            }
+        }
+    
     }
-
 }
