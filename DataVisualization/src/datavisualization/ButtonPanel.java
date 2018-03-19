@@ -6,15 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Graphics;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JPanel; 
+import javax.swing.JFileChooser;
 
 public class ButtonPanel extends JPanel implements ActionListener{
     JButton selectButton = null;
     JButton drawButton = null;
     JButton filterButton = null;
     JButton exportButton = null;
+    private Graph graph;
     
-    public ButtonPanel ()
+    public ButtonPanel (Graph graph)
     {
         selectButton = new JButton("Select File");
         selectButton.addActionListener(this);
@@ -31,6 +33,8 @@ public class ButtonPanel extends JPanel implements ActionListener{
         exportButton = new JButton("Export Graph");
         exportButton.addActionListener(this);
         add(exportButton);
+        
+        this.graph = graph;
     }
     
     @Override
@@ -42,20 +46,24 @@ public class ButtonPanel extends JPanel implements ActionListener{
             drawGraph();
             drawGraphLabels();
         }
+        
+        else if(o == selectButton) {
+            JFileChooser fc = new JFileChooser();
+            if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                graph.graphData = Import.importData(fc.getSelectedFile().getAbsolutePath());
+            }
+        }
     }
     public void drawGraph() {
             Graphics g = getGraphics();
             g.setColor(Color.BLACK);
-            g.drawRect(100, 100, 1800, 1000);
-            g.drawLine(100, 200, 1900, 200);
-            g.drawLine(100, 300, 1900, 300);
-            g.drawLine(100, 400, 1900, 400);
-            g.drawLine(100, 500, 1900, 500);
-            g.drawLine(100, 600, 1900, 600);
-            g.drawLine(100, 700, 1900, 700);
-            g.drawLine(100, 800, 1900, 800);
-            g.drawLine(100, 900, 1900, 900);
-            g.drawLine(100, 1000, 1900, 1000);
+            g.drawRect(100, 100, graph.maxWidth, graph.maxHeight);
+            
+            for(int i = 100; i < 1100; i += 100)
+            {
+                g.drawLine(100, i, 1900, i);
+            }
+            drawBars();
         }
 
         public void drawGraphLabels() {
@@ -73,5 +81,33 @@ public class ButtonPanel extends JPanel implements ActionListener{
             g.drawString("90", 50, 200);
             g.drawString("100", 50, 100);
         }
+        
+    public int calculateY(int value) {
+        double maxValue = graph.maxValue;
+        double val = value;
+        return (int)Math.round(graph.margin + graph.maxHeight * ((maxValue - val)/maxValue));
+    }
     
+    public int calculateHeight(int value) {
+        return graph.maxHeight*value/graph.maxValue;
+    }
+    
+    public void drawBars() {
+        Graphics g = getGraphics();
+        int x = graph.margin;
+        
+        for(Data d : graph.graphData) {
+            g.setColor(Color.red);
+            g.fillRect(x, calculateY(d.getValue1()), graph.barWidth, calculateHeight(d.getValue1()));
+            x += graph.barWidth;
+            g.setColor(Color.blue);
+            g.fillRect(x, calculateY(d.getValue2()), graph.barWidth, calculateHeight(d.getValue2()));
+            x += graph.barWidth;
+            g.setColor(Color.green);
+            g.fillRect(x, calculateY(d.getValue3()), graph.barWidth, calculateHeight(d.getValue3()));
+            
+            x += graph.dataWidth;
+        }
+ 
+    }
 }

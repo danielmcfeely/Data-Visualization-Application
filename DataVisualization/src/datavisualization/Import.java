@@ -11,13 +11,16 @@ public class Import {
 
     private static final String COMMA_DELIMITER = ",";
     
-    public static void main(String[] args) {
+    public static List<Data> importData(String path){
+       List<Data> dataList = new ArrayList<Data>();
+        
        BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader("\"C:\\Users\\dellc\\Desktop\\SampleData.csv\""));
+            //Look into open filepath, argrument from a picker
+            br = new BufferedReader(new FileReader(path));
             
-            List<Data> dataList = new ArrayList<Data>();
+            //dataList = new ArrayList<Data>();
             
             String line = "";
             br.readLine();
@@ -56,6 +59,6 @@ public class Import {
                 ie.printStackTrace();
             }
         }
-    
+        return dataList;
     }
 }

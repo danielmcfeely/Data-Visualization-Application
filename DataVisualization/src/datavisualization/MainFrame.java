@@ -1,6 +1,7 @@
 
 package datavisualization;
 
+import java.util.List;
 import javax.swing.JFrame;
 
 
@@ -10,7 +11,9 @@ public class MainFrame extends JFrame{
     {
         super("Data Visualization");
         
-        ButtonPanel bp = new ButtonPanel();
+        //List<Data> graphData = Import.importData();
+        Graph barGraph = new Graph();
+        ButtonPanel bp = new ButtonPanel(barGraph);
         
         getContentPane().add(bp);
         
