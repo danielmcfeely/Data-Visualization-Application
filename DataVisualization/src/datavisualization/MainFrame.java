@@ -1,5 +1,4 @@
 
-package datavisualization;
 
 import java.util.List;
 import javax.swing.JFrame;

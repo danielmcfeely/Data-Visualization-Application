@@ -1,5 +1,4 @@
 
-package datavisualization;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -56,6 +55,8 @@ public class ButtonPanel extends JPanel implements ActionListener{
         
         else if(o == filterButton) {
             //Jiangyue - Criteria Selection
+            CriteriaSelection_associated ca = new CriteriaSelection_associated(graph.graphData);
+            ca.display();
         }
         
         else if(o == exportButton) {
