@@ -1,5 +1,4 @@
 
-package datavisualization;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,4 +13,8 @@ public class Graph {
     final int maxValue = 100;
     final int barWidth = 50;
     final int dataWidth = 200;
+
+    Object getContentPane() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

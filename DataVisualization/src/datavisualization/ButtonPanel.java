@@ -1,5 +1,4 @@
 
-package datavisualization;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -45,7 +44,7 @@ public class ButtonPanel extends JPanel implements ActionListener{
                 try{
                 // capture the whole screen
                 BufferedImage screencapture = new Robot().createScreenCapture(
-                    new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()) );
+                    new Rectangle(100, 100, 1000, 1000) );
 
                 // Save as JPEG
                 File file = new File("screencapture.jpg");
@@ -82,6 +81,8 @@ public class ButtonPanel extends JPanel implements ActionListener{
         
         else if(o == filterButton) {
             //Jiangyue - Criteria Selection
+            CriteriaSelection_associated ca = new CriteriaSelection_associated(graph.graphData);
+            ca.display();
         }
         
         else if(o == exportButton) {
