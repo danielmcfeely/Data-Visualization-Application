@@ -14,14 +14,18 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import java.awt.Font;
+
 
 public class ButtonPanel extends JPanel implements ActionListener{
     JButton selectButton = null;
     JButton drawButton = null;
     JButton filterButton = null;
     JButton exportButton = null;
+    private Graph graph;
     
-    public ButtonPanel ()
+    public ButtonPanel (Graph graph)
     {
         selectButton = new JButton("Select File");
         selectButton.addActionListener(this);
@@ -56,6 +60,8 @@ public class ButtonPanel extends JPanel implements ActionListener{
             }
         });
         add(exportButton);
+        
+        this.graph = graph;
     }
     
     @Override
@@ -65,27 +71,41 @@ public class ButtonPanel extends JPanel implements ActionListener{
         
         if(o == drawButton) {
             drawGraph();
-            drawGraphLabels();
+        }
+        
+        else if(o == selectButton) {
+            JFileChooser fc = new JFileChooser();
+            if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                graph.graphData = Import.importData(fc.getSelectedFile().getAbsolutePath());
+            }
+        }
+        
+        else if(o == filterButton) {
+            //Jiangyue - Criteria Selection
+        }
+        
+        else if(o == exportButton) {
+            //Collin - Export jpeg screenshot
         }
     }
     public void drawGraph() {
             Graphics g = getGraphics();
             g.setColor(Color.BLACK);
-            g.drawRect(100, 100, 1800, 1000);
-            g.drawLine(100, 200, 1900, 200);
-            g.drawLine(100, 300, 1900, 300);
-            g.drawLine(100, 400, 1900, 400);
-            g.drawLine(100, 500, 1900, 500);
-            g.drawLine(100, 600, 1900, 600);
-            g.drawLine(100, 700, 1900, 700);
-            g.drawLine(100, 800, 1900, 800);
-            g.drawLine(100, 900, 1900, 900);
-            g.drawLine(100, 1000, 1900, 1000);
+            g.drawRect(100, 100, graph.maxWidth, graph.maxHeight);
+            
+            for(int i = 100; i < 1100; i += 100)
+            {
+                g.drawLine(100, i, 1900, i);
+            }
+            drawGraphLabels();
+            drawLegend();
+            drawBars();
         }
 
         public void drawGraphLabels() {
             Graphics g = getGraphics();
             g.setColor(Color.red);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
             g.drawString("0", 50, 1100);
             g.drawString("10", 50, 1000);
             g.drawString("20", 50, 900);
@@ -98,5 +118,51 @@ public class ButtonPanel extends JPanel implements ActionListener{
             g.drawString("90", 50, 200);
             g.drawString("100", 50, 100);
         }
+        
+    public int calculateY(int value) {
+        double maxValue = graph.maxValue;
+        double val = value;
+        return (int)Math.round(graph.margin + graph.maxHeight * ((maxValue - val)/maxValue));
+    }
     
+    public int calculateHeight(int value) {
+        return graph.maxHeight*value/graph.maxValue;
+    }
+    
+    public void drawBars() {
+        Graphics g = getGraphics();
+        int x = graph.margin;
+        
+        for(Data d : graph.graphData) {
+            g.setColor(Color.RED);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
+            g.drawString(d.getCategory(), x, graph.margin + graph.maxHeight + 30);
+            
+            g.setColor(Color.red);
+            g.fillRect(x, calculateY(d.getValue1()), graph.barWidth, calculateHeight(d.getValue1()));
+            x += graph.barWidth;
+            g.setColor(Color.blue);
+            g.fillRect(x, calculateY(d.getValue2()), graph.barWidth, calculateHeight(d.getValue2()));
+            x += graph.barWidth;
+            g.setColor(Color.green);
+            g.fillRect(x, calculateY(d.getValue3()), graph.barWidth, calculateHeight(d.getValue3()));
+            
+            x += graph.dataWidth;
+        }
+    }
+    
+    public void drawLegend() {
+        Graphics g = getGraphics();
+        
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(1700, 100, 200, 200);
+        
+        g.setColor(Color.red);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 28));
+        g.drawString("Town 1", 1750, 140);
+        g.setColor(Color.blue);
+        g.drawString("Town 2", 1750, 200);
+        g.setColor(Color.green);
+        g.drawString("Town 3", 1750, 260);
+    }
 }
