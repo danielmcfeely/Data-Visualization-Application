@@ -1,3 +1,5 @@
+package datavisualization;
+
 
 import java.util.Scanner;
 import java.io.File;

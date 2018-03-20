@@ -1,3 +1,5 @@
+package datavisualization;
+
 
 
 public class Data {
